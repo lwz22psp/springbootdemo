@@ -10,8 +10,5 @@ public class SpringbootdockerApplication {
     public static void main(String[] args) {
         SpringApplication.run(SpringbootdockerApplication.class, args);
     }
-    @RequestMapping("/hello")
-    public String hello() {
-        return "<h1>Hello Spring-Boot Maven Docker</h1>";
-    }
+
 }
