@@ -1,1 +1,9 @@
 target
+/target/docker/springbootdocker-0.0.1-SNAPSHOT.jar
+/target/springbootdocker-0.0.1-SNAPSHOT.jar
+/target/classes/com/hapiniu/demo/springbootdocker/SpringbootdockerApplication.class
+/target/surefire-reports/com.hapiniu.demo.springbootdocker.SpringbootdockerApplicationTests.txt
+/target/surefire-reports/TEST-com.hapiniu.demo.springbootdocker.SpringbootdockerApplicationTests.xml
+/target/test-classes/image_info.json
+/.idea/workspace.xml
+/target/springbootdocker-0.0.1-SNAPSHOT.jar.original
