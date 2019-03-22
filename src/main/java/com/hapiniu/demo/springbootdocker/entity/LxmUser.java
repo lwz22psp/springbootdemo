@@ -1,33 +1,22 @@
 package com.hapiniu.demo.springbootdocker.entity;
 
 import java.io.Serializable;
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  * lxm_user
  * @author 
  */
-@Table(name="lxm_user")
 public class LxmUser implements Serializable {
-    @Id
-    @GeneratedValue
-    @GeneratedValue(generator = "JDBC")
     private Integer userId;
 
     /**
      * 用户名
      */
-    @NotEmpty
     private String userName;
 
     /**
      * password
      */
-    @NotEmpty
     private String userPwd;
 
     private static final long serialVersionUID = 1L;

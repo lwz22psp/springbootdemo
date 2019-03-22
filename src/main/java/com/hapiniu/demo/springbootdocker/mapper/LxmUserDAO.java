@@ -3,12 +3,7 @@ package com.hapiniu.demo.springbootdocker.mapper;
 import com.hapiniu.demo.springbootdocker.entity.LxmUser;
 import com.hapiniu.demo.springbootdocker.entity.LxmUserExample;
 import java.util.List;
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
 import org.apache.ibatis.annotations.Param;
-import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.stereotype.Repository;
 
 @Repository
