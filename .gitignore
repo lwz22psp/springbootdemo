@@ -8,3 +8,7 @@ target
 /.idea/workspace.xml
 /target/springbootdocker-0.0.1-SNAPSHOT.jar.original
 /target/classes/application.properties
+.idea/
+.idea/*
+
+target/
