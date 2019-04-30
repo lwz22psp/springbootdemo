@@ -4,21 +4,29 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * lxm_user
+ * lxm_user_info
  * @author 
  */
-public class LxmUser implements Serializable {
+public class LxmUserInfo implements Serializable {
+    /**
+     * 主键
+     */
     private Integer id;
 
     /**
-     * 用户名
+     * 用户Id
      */
-    private String userName;
+    private Integer userId;
 
     /**
-     * 密码md5
+     * 邮箱
      */
-    private String userPassword;
+    private String userEmail;
+
+    /**
+     * 手机
+     */
+    private String userPhone;
 
     /**
      * 创建者
@@ -43,7 +51,7 @@ public class LxmUser implements Serializable {
     /**
      * 是否有效 1有 0无
      */
-    private Byte status;
+    private Boolean status;
 
     private static final long serialVersionUID = 1L;
 
@@ -55,20 +63,28 @@ public class LxmUser implements Serializable {
         this.id = id;
     }
 
-    public String getUserName() {
-        return userName;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
-    public String getUserPassword() {
-        return userPassword;
+    public String getUserEmail() {
+        return userEmail;
     }
 
-    public void setUserPassword(String userPassword) {
-        this.userPassword = userPassword;
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
+    }
+
+    public String getUserPhone() {
+        return userPhone;
+    }
+
+    public void setUserPhone(String userPhone) {
+        this.userPhone = userPhone;
     }
 
     public String getCreater() {
@@ -103,11 +119,11 @@ public class LxmUser implements Serializable {
         this.updateTime = updateTime;
     }
 
-    public Byte getStatus() {
+    public Boolean getStatus() {
         return status;
     }
 
-    public void setStatus(Byte status) {
+    public void setStatus(Boolean status) {
         this.status = status;
     }
 
@@ -122,10 +138,11 @@ public class LxmUser implements Serializable {
         if (getClass() != that.getClass()) {
             return false;
         }
-        LxmUser other = (LxmUser) that;
+        LxmUserInfo other = (LxmUserInfo) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-            && (this.getUserName() == null ? other.getUserName() == null : this.getUserName().equals(other.getUserName()))
-            && (this.getUserPassword() == null ? other.getUserPassword() == null : this.getUserPassword().equals(other.getUserPassword()))
+            && (this.getUserId() == null ? other.getUserId() == null : this.getUserId().equals(other.getUserId()))
+            && (this.getUserEmail() == null ? other.getUserEmail() == null : this.getUserEmail().equals(other.getUserEmail()))
+            && (this.getUserPhone() == null ? other.getUserPhone() == null : this.getUserPhone().equals(other.getUserPhone()))
             && (this.getCreater() == null ? other.getCreater() == null : this.getCreater().equals(other.getCreater()))
             && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
             && (this.getUpdater() == null ? other.getUpdater() == null : this.getUpdater().equals(other.getUpdater()))
@@ -138,8 +155,9 @@ public class LxmUser implements Serializable {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
-        result = prime * result + ((getUserName() == null) ? 0 : getUserName().hashCode());
-        result = prime * result + ((getUserPassword() == null) ? 0 : getUserPassword().hashCode());
+        result = prime * result + ((getUserId() == null) ? 0 : getUserId().hashCode());
+        result = prime * result + ((getUserEmail() == null) ? 0 : getUserEmail().hashCode());
+        result = prime * result + ((getUserPhone() == null) ? 0 : getUserPhone().hashCode());
         result = prime * result + ((getCreater() == null) ? 0 : getCreater().hashCode());
         result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
         result = prime * result + ((getUpdater() == null) ? 0 : getUpdater().hashCode());
@@ -155,8 +173,9 @@ public class LxmUser implements Serializable {
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
-        sb.append(", userName=").append(userName);
-        sb.append(", userPassword=").append(userPassword);
+        sb.append(", userId=").append(userId);
+        sb.append(", userEmail=").append(userEmail);
+        sb.append(", userPhone=").append(userPhone);
         sb.append(", creater=").append(creater);
         sb.append(", createTime=").append(createTime);
         sb.append(", updater=").append(updater);

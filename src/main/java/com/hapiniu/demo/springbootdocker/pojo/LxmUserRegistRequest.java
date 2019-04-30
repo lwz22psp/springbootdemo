@@ -1,10 +1,10 @@
 package com.hapiniu.demo.springbootdocker.pojo;
 
+import com.hapiniu.demo.springbootdocker.pojo.common.RequestBaseInfo;
 import lombok.Data;
 
 @Data
-public class LxmUserInfo {
-
+public class LxmUserRegistRequest extends RequestBaseInfo {
 
     /**
      * 用户名
@@ -15,4 +15,9 @@ public class LxmUserInfo {
      * password
      */
     private String userPwd;
+
+    /**
+     * registCode
+     */
+    private String registCode;
 }

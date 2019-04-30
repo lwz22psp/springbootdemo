@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.hapiniu.demo.springbootdocker.dao.LxmUserDAO">
-  <resultMap id="BaseResultMap" type="com.hapiniu.demo.springbootdocker.entity.LxmUser">
+<mapper namespace="com.hapiniu.demo.springbootdocker.dao.LxmUserInfoDAO">
+  <resultMap id="BaseResultMap" type="com.hapiniu.demo.springbootdocker.entity.LxmUserInfo">
     <id column="Id" jdbcType="INTEGER" property="id" />
-    <result column="UserName" jdbcType="VARCHAR" property="userName" />
-    <result column="UserPassword" jdbcType="VARCHAR" property="userPassword" />
+    <result column="UserId" jdbcType="INTEGER" property="userId" />
+    <result column="UserEmail" jdbcType="VARCHAR" property="userEmail" />
+    <result column="UserPhone" jdbcType="VARCHAR" property="userPhone" />
     <result column="Creater" jdbcType="VARCHAR" property="creater" />
     <result column="CreateTime" jdbcType="TIMESTAMP" property="createTime" />
     <result column="Updater" jdbcType="VARCHAR" property="updater" />
@@ -70,15 +71,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    Id, UserName, UserPassword, Creater, CreateTime, Updater, UpdateTime, `Status`
+    Id, UserId, UserEmail, UserPhone, Creater, CreateTime, Updater, UpdateTime, `Status`
   </sql>
-  <select id="selectByExample" parameterType="com.hapiniu.demo.springbootdocker.entity.LxmUserExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.hapiniu.demo.springbootdocker.entity.LxmUserInfoExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from lxm_user
+    from lxm_user_info
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -97,35 +98,38 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from lxm_user
+    from lxm_user_info
     where Id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from lxm_user
+    delete from lxm_user_info
     where Id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.hapiniu.demo.springbootdocker.entity.LxmUserExample">
-    delete from lxm_user
+  <delete id="deleteByExample" parameterType="com.hapiniu.demo.springbootdocker.entity.LxmUserInfoExample">
+    delete from lxm_user_info
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" keyColumn="Id" keyProperty="id" parameterType="com.hapiniu.demo.springbootdocker.entity.LxmUser" useGeneratedKeys="true">
-    insert into lxm_user (UserName, UserPassword, Creater, 
-      CreateTime, Updater, UpdateTime, 
-      `Status`)
-    values (#{userName,jdbcType=VARCHAR}, #{userPassword,jdbcType=VARCHAR}, #{creater,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updater,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{status,jdbcType=BIT})
+  <insert id="insert" keyColumn="Id" keyProperty="id" parameterType="com.hapiniu.demo.springbootdocker.entity.LxmUserInfo" useGeneratedKeys="true">
+    insert into lxm_user_info (UserId, UserEmail, UserPhone, 
+      Creater, CreateTime, Updater, 
+      UpdateTime, `Status`)
+    values (#{userId,jdbcType=INTEGER}, #{userEmail,jdbcType=VARCHAR}, #{userPhone,jdbcType=VARCHAR}, 
+      #{creater,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updater,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{status,jdbcType=BIT})
   </insert>
-  <insert id="insertSelective" keyColumn="Id" keyProperty="id" parameterType="com.hapiniu.demo.springbootdocker.entity.LxmUser" useGeneratedKeys="true">
-    insert into lxm_user
+  <insert id="insertSelective" keyColumn="Id" keyProperty="id" parameterType="com.hapiniu.demo.springbootdocker.entity.LxmUserInfo" useGeneratedKeys="true">
+    insert into lxm_user_info
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="userName != null">
-        UserName,
+      <if test="userId != null">
+        UserId,
       </if>
-      <if test="userPassword != null">
-        UserPassword,
+      <if test="userEmail != null">
+        UserEmail,
+      </if>
+      <if test="userPhone != null">
+        UserPhone,
       </if>
       <if test="creater != null">
         Creater,
@@ -144,11 +148,14 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="userName != null">
-        #{userName,jdbcType=VARCHAR},
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
       </if>
-      <if test="userPassword != null">
-        #{userPassword,jdbcType=VARCHAR},
+      <if test="userEmail != null">
+        #{userEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="userPhone != null">
+        #{userPhone,jdbcType=VARCHAR},
       </if>
       <if test="creater != null">
         #{creater,jdbcType=VARCHAR},
@@ -167,23 +174,26 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.hapiniu.demo.springbootdocker.entity.LxmUserExample" resultType="java.lang.Long">
-    select count(*) from lxm_user
+  <select id="countByExample" parameterType="com.hapiniu.demo.springbootdocker.entity.LxmUserInfoExample" resultType="java.lang.Long">
+    select count(*) from lxm_user_info
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update lxm_user
+    update lxm_user_info
     <set>
       <if test="record.id != null">
         Id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.userName != null">
-        UserName = #{record.userName,jdbcType=VARCHAR},
+      <if test="record.userId != null">
+        UserId = #{record.userId,jdbcType=INTEGER},
       </if>
-      <if test="record.userPassword != null">
-        UserPassword = #{record.userPassword,jdbcType=VARCHAR},
+      <if test="record.userEmail != null">
+        UserEmail = #{record.userEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userPhone != null">
+        UserPhone = #{record.userPhone,jdbcType=VARCHAR},
       </if>
       <if test="record.creater != null">
         Creater = #{record.creater,jdbcType=VARCHAR},
@@ -206,10 +216,11 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update lxm_user
+    update lxm_user_info
     set Id = #{record.id,jdbcType=INTEGER},
-      UserName = #{record.userName,jdbcType=VARCHAR},
-      UserPassword = #{record.userPassword,jdbcType=VARCHAR},
+      UserId = #{record.userId,jdbcType=INTEGER},
+      UserEmail = #{record.userEmail,jdbcType=VARCHAR},
+      UserPhone = #{record.userPhone,jdbcType=VARCHAR},
       Creater = #{record.creater,jdbcType=VARCHAR},
       CreateTime = #{record.createTime,jdbcType=TIMESTAMP},
       Updater = #{record.updater,jdbcType=VARCHAR},
@@ -219,14 +230,17 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.hapiniu.demo.springbootdocker.entity.LxmUser">
-    update lxm_user
+  <update id="updateByPrimaryKeySelective" parameterType="com.hapiniu.demo.springbootdocker.entity.LxmUserInfo">
+    update lxm_user_info
     <set>
-      <if test="userName != null">
-        UserName = #{userName,jdbcType=VARCHAR},
+      <if test="userId != null">
+        UserId = #{userId,jdbcType=INTEGER},
       </if>
-      <if test="userPassword != null">
-        UserPassword = #{userPassword,jdbcType=VARCHAR},
+      <if test="userEmail != null">
+        UserEmail = #{userEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="userPhone != null">
+        UserPhone = #{userPhone,jdbcType=VARCHAR},
       </if>
       <if test="creater != null">
         Creater = #{creater,jdbcType=VARCHAR},
@@ -246,10 +260,11 @@
     </set>
     where Id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.hapiniu.demo.springbootdocker.entity.LxmUser">
-    update lxm_user
-    set UserName = #{userName,jdbcType=VARCHAR},
-      UserPassword = #{userPassword,jdbcType=VARCHAR},
+  <update id="updateByPrimaryKey" parameterType="com.hapiniu.demo.springbootdocker.entity.LxmUserInfo">
+    update lxm_user_info
+    set UserId = #{userId,jdbcType=INTEGER},
+      UserEmail = #{userEmail,jdbcType=VARCHAR},
+      UserPhone = #{userPhone,jdbcType=VARCHAR},
       Creater = #{creater,jdbcType=VARCHAR},
       CreateTime = #{createTime,jdbcType=TIMESTAMP},
       Updater = #{updater,jdbcType=VARCHAR},

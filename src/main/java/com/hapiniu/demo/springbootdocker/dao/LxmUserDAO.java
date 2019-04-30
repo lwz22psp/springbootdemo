@@ -1,4 +1,4 @@
-package com.hapiniu.demo.springbootdocker.mapper;
+package com.hapiniu.demo.springbootdocker.dao;
 
 import com.hapiniu.demo.springbootdocker.entity.LxmUser;
 import com.hapiniu.demo.springbootdocker.entity.LxmUserExample;
@@ -12,7 +12,7 @@ public interface LxmUserDAO {
 
     int deleteByExample(LxmUserExample example);
 
-    int deleteByPrimaryKey(Integer userId);
+    int deleteByPrimaryKey(Integer id);
 
     int insert(LxmUser record);
 
@@ -20,7 +20,7 @@ public interface LxmUserDAO {
 
     List<LxmUser> selectByExample(LxmUserExample example);
 
-    LxmUser selectByPrimaryKey(Integer userId);
+    LxmUser selectByPrimaryKey(Integer id);
 
     int updateByExampleSelective(@Param("record") LxmUser record, @Param("example") LxmUserExample example);
 
