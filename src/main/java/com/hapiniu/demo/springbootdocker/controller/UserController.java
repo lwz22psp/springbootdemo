@@ -33,7 +33,7 @@ public class UserController {
         this.lxmUserBo = lxmUserBo;
     }
 
-    @RequestMapping(value = "/regist", method = RequestMethod.POST)
+    @RequestMapping(value = "/regist", method = RequestMethod.PUT)
     @ApiOperation(value = "用户注册", notes = "用户注册")
     public LxmUserRegistResponse addUser(@RequestBody LxmUserRegistRequest request) {
         LxmUserRegistResponse resp = new LxmUserRegistResponse();
