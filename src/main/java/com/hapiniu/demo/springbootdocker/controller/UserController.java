@@ -55,20 +55,20 @@ public class UserController {
     }
 
 
-    @RequestMapping(value = "/temp", method = RequestMethod.GET)
-    @ApiOperation(value = "获取helloWorld", notes = "简单SpringMVC请求")
-    public String homeMessage() {
-        String uuid = UUID.randomUUID().toString();
-        LxmUserModel model = new LxmUserModel();
-        model.setUserId(123);
-        redisTemplate.opsForHash().put("usrToken", uuid, model);
-        return uuid;
-    }
-
-
-    @RequestMapping(value = "/verifyToken", method = RequestMethod.POST)
-    @ApiOperation(value = "verifyToken", notes = "verifyToken")
-    public Boolean verifyToken(@RequestBody String token) {
-        return redisTemplate.opsForHash().hasKey("usrToken", token);
-    }
+//    @RequestMapping(value = "/temp", method = RequestMethod.GET)
+//    @ApiOperation(value = "获取helloWorld", notes = "简单SpringMVC请求")
+//    public String homeMessage() {
+//        String uuid = UUID.randomUUID().toString();
+//        LxmUserModel model = new LxmUserModel();
+//        model.setUserId(123);
+//        redisTemplate.opsForHash().put("usrToken", uuid, model);
+//        return uuid;
+//    }
+//
+//
+//    @RequestMapping(value = "/verifyToken", method = RequestMethod.POST)
+//    @ApiOperation(value = "verifyToken", notes = "verifyToken")
+//    public Boolean verifyToken(@RequestBody String token) {
+//        return redisTemplate.opsForHash().hasKey("usrToken", token);
+//    }
 }
