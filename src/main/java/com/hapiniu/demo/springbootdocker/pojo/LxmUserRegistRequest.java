@@ -20,4 +20,8 @@ public class LxmUserRegistRequest extends RequestBaseInfo {
      * registCode
      */
     private String registCode;
+
+    private String phone;
+    private String email;
+    private String nickName;
 }
