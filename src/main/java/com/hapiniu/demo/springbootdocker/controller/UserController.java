@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.Resource;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/api/user")
 @Api(value = "user")
 public class UserController {
     @Resource(name = "lxmUserTokenRedisTemplate")
