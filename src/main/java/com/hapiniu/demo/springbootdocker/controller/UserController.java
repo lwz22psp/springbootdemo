@@ -2,8 +2,8 @@ package com.hapiniu.demo.springbootdocker.controller;
 
 import com.hapiniu.demo.springbootdocker.bo.LxmUserBo;
 import com.hapiniu.demo.springbootdocker.model.LxmUserModel;
-import com.hapiniu.demo.springbootdocker.pojo.LxmUserRegistRequest;
-import com.hapiniu.demo.springbootdocker.pojo.LxmUserRegistResponse;
+import com.hapiniu.demo.springbootdocker.pojo.*;
+import com.hapiniu.demo.springbootdocker.util.MD5;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequestMapping("/api/user")
@@ -34,7 +36,7 @@ public class UserController {
 
     @RequestMapping(value = "/regist", method = RequestMethod.POST)
     @ApiOperation(value = "用户注册", notes = "用户注册")
-    public LxmUserRegistResponse addUser(@RequestBody LxmUserRegistRequest request) {
+    public LxmUserRegistResponse regist(@RequestBody LxmUserRegistRequest request) {
         LxmUserRegistResponse resp = new LxmUserRegistResponse();
         if (env.equals(request.getRegistCode())) {
             if (request.getUserName() == null || request.getUserName().isEmpty()) {
@@ -44,7 +46,8 @@ public class UserController {
             } else if (!lxmUserBo.verifyUsrName(request.getUserName())) {
                 resp.error("用户名已注册");
             } else {
-                lxmUserBo.addLxmUser(request.getUserName(), request.getUserPwd());
+                LxmUserModel model =new LxmUserModel(0,request.getUserName(), MD5.eccrypt(request.getUserPwd()),request.getPhone(),request.getEmail(),request.getNickName());
+                lxmUserBo.addLxmUser(model);
                 resp.success();
             }
         } else {
@@ -53,21 +56,34 @@ public class UserController {
         return resp;
     }
 
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    @ApiOperation(value = "用户登陆", notes = "用户登陆")
+    public LxmUserLoginResponse login(@RequestBody LxmUserLoginRequest request) {
+        LxmUserLoginResponse resp = new LxmUserLoginResponse();
+        int uid = lxmUserBo.login(request.getUserName(), request.getUserPwd());
+        if (uid == 0) {
+            resp.error("用户名密码错误");
+        } else {
+            String uuid = UUID.randomUUID().toString();
+            LxmUserModel model = new LxmUserModel();
+            model.setUserId(uid);
+            redisTemplate.opsForHash().put("user", uuid, model);
+            redisTemplate.expire(uuid, 10, TimeUnit.DAYS);
+            resp.setToken(uuid);
+            resp.success();
+        }
+        return resp;
+    }
 
-//    @RequestMapping(value = "/temp", method = RequestMethod.GET)
-//    @ApiOperation(value = "获取helloWorld", notes = "简单SpringMVC请求")
-//    public String homeMessage() {
-//        String uuid = UUID.randomUUID().toString();
-//        LxmUserModel model = new LxmUserModel();
-//        model.setUserId(123);
-//        redisTemplate.opsForHash().put("usrToken", uuid, model);
-//        return uuid;
-//    }
-//
-//
-//    @RequestMapping(value = "/verifyToken", method = RequestMethod.POST)
-//    @ApiOperation(value = "verifyToken", notes = "verifyToken")
-//    public Boolean verifyToken(@RequestBody String token) {
-//        return redisTemplate.opsForHash().hasKey("usrToken", token);
-//    }
+    @RequestMapping(value = "/test", method = RequestMethod.POST)
+    @ApiOperation(value = "测试", notes = "测试")
+    public TestResponse test(@RequestBody TestRequest request) {
+        TestResponse resp = new TestResponse();
+        if (redisTemplate.opsForHash().hasKey("user", request.getHeader().getToken())) {
+            resp.success();
+        } else {
+            resp.error("");
+        }
+        return resp;
+    }
 }

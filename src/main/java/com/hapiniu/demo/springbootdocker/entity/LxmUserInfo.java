@@ -53,6 +53,8 @@ public class LxmUserInfo implements Serializable {
      */
     private Boolean status;
 
+    private String nickName;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -127,6 +129,14 @@ public class LxmUserInfo implements Serializable {
         this.status = status;
     }
 
+    public String getNickName() {
+        return nickName;
+    }
+
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -147,7 +157,8 @@ public class LxmUserInfo implements Serializable {
             && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
             && (this.getUpdater() == null ? other.getUpdater() == null : this.getUpdater().equals(other.getUpdater()))
             && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
-            && (this.getStatus() == null ? other.getStatus() == null : this.getStatus().equals(other.getStatus()));
+            && (this.getStatus() == null ? other.getStatus() == null : this.getStatus().equals(other.getStatus()))
+            && (this.getNickName() == null ? other.getNickName() == null : this.getNickName().equals(other.getNickName()));
     }
 
     @Override
@@ -163,6 +174,7 @@ public class LxmUserInfo implements Serializable {
         result = prime * result + ((getUpdater() == null) ? 0 : getUpdater().hashCode());
         result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
         result = prime * result + ((getStatus() == null) ? 0 : getStatus().hashCode());
+        result = prime * result + ((getNickName() == null) ? 0 : getNickName().hashCode());
         return result;
     }
 
@@ -181,6 +193,7 @@ public class LxmUserInfo implements Serializable {
         sb.append(", updater=").append(updater);
         sb.append(", updateTime=").append(updateTime);
         sb.append(", status=").append(status);
+        sb.append(", nickName=").append(nickName);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

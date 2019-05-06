@@ -5,6 +5,7 @@ import lombok.Data;
 /**
  * @author dark
  **/
+@Data
 public class RequestBaseInfo {
     private RequestHeader header;
 }

@@ -11,6 +11,7 @@
     <result column="Updater" jdbcType="VARCHAR" property="updater" />
     <result column="UpdateTime" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="Status" jdbcType="BIT" property="status" />
+    <result column="NickName" jdbcType="VARCHAR" property="nickName" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -71,7 +72,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    Id, UserId, UserEmail, UserPhone, Creater, CreateTime, Updater, UpdateTime, `Status`
+    Id, UserId, UserEmail, UserPhone, Creater, CreateTime, Updater, UpdateTime, `Status`, 
+    NickName
   </sql>
   <select id="selectByExample" parameterType="com.hapiniu.demo.springbootdocker.entity.LxmUserInfoExample" resultMap="BaseResultMap">
     select
@@ -114,10 +116,12 @@
   <insert id="insert" keyColumn="Id" keyProperty="id" parameterType="com.hapiniu.demo.springbootdocker.entity.LxmUserInfo" useGeneratedKeys="true">
     insert into lxm_user_info (UserId, UserEmail, UserPhone, 
       Creater, CreateTime, Updater, 
-      UpdateTime, `Status`)
+      UpdateTime, `Status`, NickName
+      )
     values (#{userId,jdbcType=INTEGER}, #{userEmail,jdbcType=VARCHAR}, #{userPhone,jdbcType=VARCHAR}, 
       #{creater,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updater,jdbcType=VARCHAR}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{status,jdbcType=BIT})
+      #{updateTime,jdbcType=TIMESTAMP}, #{status,jdbcType=BIT}, #{nickName,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" keyColumn="Id" keyProperty="id" parameterType="com.hapiniu.demo.springbootdocker.entity.LxmUserInfo" useGeneratedKeys="true">
     insert into lxm_user_info
@@ -146,6 +150,9 @@
       <if test="status != null">
         `Status`,
       </if>
+      <if test="nickName != null">
+        NickName,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="userId != null">
@@ -171,6 +178,9 @@
       </if>
       <if test="status != null">
         #{status,jdbcType=BIT},
+      </if>
+      <if test="nickName != null">
+        #{nickName,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -210,6 +220,9 @@
       <if test="record.status != null">
         `Status` = #{record.status,jdbcType=BIT},
       </if>
+      <if test="record.nickName != null">
+        NickName = #{record.nickName,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -225,7 +238,8 @@
       CreateTime = #{record.createTime,jdbcType=TIMESTAMP},
       Updater = #{record.updater,jdbcType=VARCHAR},
       UpdateTime = #{record.updateTime,jdbcType=TIMESTAMP},
-      `Status` = #{record.status,jdbcType=BIT}
+      `Status` = #{record.status,jdbcType=BIT},
+      NickName = #{record.nickName,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -257,6 +271,9 @@
       <if test="status != null">
         `Status` = #{status,jdbcType=BIT},
       </if>
+      <if test="nickName != null">
+        NickName = #{nickName,jdbcType=VARCHAR},
+      </if>
     </set>
     where Id = #{id,jdbcType=INTEGER}
   </update>
@@ -269,7 +286,8 @@
       CreateTime = #{createTime,jdbcType=TIMESTAMP},
       Updater = #{updater,jdbcType=VARCHAR},
       UpdateTime = #{updateTime,jdbcType=TIMESTAMP},
-      `Status` = #{status,jdbcType=BIT}
+      `Status` = #{status,jdbcType=BIT},
+      NickName = #{nickName,jdbcType=VARCHAR}
     where Id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>
