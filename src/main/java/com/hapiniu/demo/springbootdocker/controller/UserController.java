@@ -48,6 +48,8 @@ public class UserController {
             } else {
                 LxmUserModel model =new LxmUserModel(0,request.getUserName(), MD5.eccrypt(request.getUserPwd()),request.getPhone(),request.getEmail(),request.getNickName());
                 lxmUserBo.addLxmUser(model);
+                String token =  login(request.getUserName(),request.getUserPwd());
+                resp.setToken(token);
                 resp.success();
             }
         } else {
@@ -60,19 +62,28 @@ public class UserController {
     @ApiOperation(value = "用户登陆", notes = "用户登陆")
     public LxmUserLoginResponse login(@RequestBody LxmUserLoginRequest request) {
         LxmUserLoginResponse resp = new LxmUserLoginResponse();
-        int uid = lxmUserBo.login(request.getUserName(), request.getUserPwd());
-        if (uid == 0) {
+        String token = login(request.getUserName(),request.getUserPwd());
+        if("".equals(token)){
             resp.error("用户名密码错误");
+        }else{
+            resp.setToken(token);
+            resp.success();
+        }
+        return resp;
+    }
+
+    private String login(String userName,String userPwd){
+        int uid = lxmUserBo.login(userName, userName);
+        if (uid == 0) {
+            return "";
         } else {
             String uuid = UUID.randomUUID().toString();
             LxmUserModel model = new LxmUserModel();
             model.setUserId(uid);
             redisTemplate.opsForHash().put("user", uuid, model);
             redisTemplate.expire(uuid, 10, TimeUnit.DAYS);
-            resp.setToken(uuid);
-            resp.success();
+           return uuid;
         }
-        return resp;
     }
 
     @RequestMapping(value = "/test", method = RequestMethod.POST)
