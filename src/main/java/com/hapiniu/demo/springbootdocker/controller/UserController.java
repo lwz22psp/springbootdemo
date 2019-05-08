@@ -1,5 +1,6 @@
 package com.hapiniu.demo.springbootdocker.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.hapiniu.demo.springbootdocker.bo.LxmUserBo;
 import com.hapiniu.demo.springbootdocker.model.LxmUserModel;
 import com.hapiniu.demo.springbootdocker.pojo.*;
@@ -72,8 +73,30 @@ public class UserController {
         return resp;
     }
 
+    @RequestMapping(value = "/verifyToken", method = RequestMethod.POST)
+    @ApiOperation(value = "通过token获取用户信息", notes = "通过token获取用户信息")
+    public GetLxmUserResponse verifyToken(@RequestBody GetLxmUserRequest request) {
+        GetLxmUserResponse resp = new GetLxmUserResponse();
+        try{
+            String token = request.getHeader().getToken();
+            if("".equals(token)||!redisTemplate.opsForHash().hasKey("user", request.getHeader().getToken())){
+                resp.error("token错误");
+            }else{
+                Object redisObject = redisTemplate.opsForHash().get("user", request.getHeader().getToken());
+                int userId = JSON.parseObject(JSON.toJSONString(redisObject),LxmUserModel.class).getUserId() ;
+                resp.setData(lxmUserBo.getLxmUserModelById(userId));
+                resp.success();
+            }
+        }catch (Exception e){
+            resp.error(e.getMessage());
+        }
+
+        return resp;
+    }
+
+
     private String login(String userName,String userPwd){
-        int uid = lxmUserBo.login(userName, userName);
+        int uid = lxmUserBo.login(userName, userPwd);
         if (uid == 0) {
             return "";
         } else {

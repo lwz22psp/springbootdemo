@@ -81,6 +81,7 @@ public class LxmUserBo {
     private LxmUserModel convertToModel(LxmUser userEntity, LxmUserInfo userInfoEntity) {
         LxmUserModel model = new LxmUserModel();
         model.setUserId(userEntity.getId());
+        model.setUserName(userEntity.getUserName());
         model.setUserPwd(userEntity.getUserPassword());
         if (userInfoEntity != null) {
             model.setEmail(userInfoEntity.getUserEmail());
