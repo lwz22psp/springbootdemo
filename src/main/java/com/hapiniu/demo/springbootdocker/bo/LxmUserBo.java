@@ -40,7 +40,7 @@ public class LxmUserBo {
     }
 
     public boolean verifyUsrName(String userName) {
-        return findUser(userName)==0;
+        return findUser(userName)>0;
     }
 
     public int login(String prarm,String userPwd){
@@ -58,7 +58,7 @@ public class LxmUserBo {
         List<LxmUser> result = queryLxmUser(query);
         if(queryLxmUser(query).isEmpty()){
             LxmUserInfoExample queryEntity = new LxmUserInfoExample();
-            queryEntity.createCriteria().andStatusEqualTo(true);
+            queryEntity.createCriteria();
             queryEntity.or().andNickNameEqualTo(param);
             queryEntity.or().andUserPhoneEqualTo(param);
             queryEntity.or().andUserEmailEqualTo(param);

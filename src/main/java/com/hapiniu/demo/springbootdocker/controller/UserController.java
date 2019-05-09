@@ -44,7 +44,10 @@ public class UserController {
                 resp.error("用户名不能为空");
             } else if (request.getUserPwd() == null || request.getUserPwd().isEmpty()) {
                 resp.error("密码不能为空");
-            } else if (!lxmUserBo.verifyUsrName(request.getUserName())) {
+            } else if (lxmUserBo.verifyUsrName(request.getUserName())
+                    ||lxmUserBo.verifyUsrName(request.getNickName())
+                    ||lxmUserBo.verifyUsrName(request.getEmail())
+                    ||lxmUserBo.verifyUsrName(request.getPhone())) {
                 resp.error("用户名已注册");
             } else {
                 LxmUserModel model =new LxmUserModel(0,request.getUserName(), MD5.eccrypt(request.getUserPwd()),request.getPhone(),request.getEmail(),request.getNickName());
