@@ -35,6 +35,7 @@ public class MessageController {
             resp.setCreateTime(request.getCreateTime());
             resp.setFromUserName(request.getToUserName());
             resp.setToUserName(request.getFromUserName());
+            resp.setMsgType(request.getMsgType());
             resp.setContent("test");
 
         } catch (Exception e) {
