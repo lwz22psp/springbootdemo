@@ -22,7 +22,7 @@ public class MessageController {
     @Value("${regis.code}")
     private String env;
 
-    @RequestMapping(value = "/test", method = RequestMethod.GET)
+    @RequestMapping(value = "/test", method = RequestMethod.POST)
     @ApiOperation(value = "respMsg", notes = "respMsg")
     public String respMsg(@RequestBody WechatMessageRequest request) {
         WechatMessageResponse resp = new WechatMessageResponse();
