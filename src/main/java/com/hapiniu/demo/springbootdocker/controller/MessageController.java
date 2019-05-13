@@ -24,8 +24,8 @@ public class MessageController {
     private String env;
 
     @RequestMapping(value = "/test", method = RequestMethod.POST,
-            consumes = {MediaType.APPLICATION_XML_VALUE},
-            produces = {MediaType.APPLICATION_XML_VALUE}
+            consumes = {MediaType.TEXT_XML_VALUE},
+            produces = {MediaType.TEXT_XML_VALUE}
     )
     @ApiOperation(value = "respMsg", notes = "respMsg")
     public WechatMessageResponse respMsg(@RequestBody WechatMessageRequest request) {
