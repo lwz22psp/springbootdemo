@@ -36,8 +36,13 @@ public class MessageController {
             resp.setFromUserName(request.getToUserName());
             resp.setToUserName(request.getFromUserName());
             resp.setMsgType(request.getMsgType());
-            resp.setContent("test");
-
+            resp.setContent("咕咕咕～");
+            if (request.getContent().contains("注册码") || request.getContent().contains("验证码")) {
+                resp.setContent("请说出神奇小密码～");
+            }
+            if ("hapiniu666".equals(request.getContent())) {
+                resp.setContent("恭喜泥～注册码：" + env);
+            }
         } catch (Exception e) {
             resp.error(e.getMessage());
         }
@@ -51,7 +56,7 @@ public class MessageController {
                          @RequestParam("timestamp") String timestamp,
                          @RequestParam("nonce") String nonce,
                          @RequestParam("echostr") String echostr) {
-       return echostr;
+        return echostr;
     }
 
 }
