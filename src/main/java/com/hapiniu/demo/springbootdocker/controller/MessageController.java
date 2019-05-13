@@ -29,14 +29,18 @@ public class MessageController {
     static Logger log= Logger.getLogger(MessageController.class.getName());
 
     //@RequestMapping(value = "/test", method = RequestMethod.POST,produces = {MediaType.APPLICATION_XML_VALUE},consumes = { MediaType.APPLICATION_XML_VALUE })
-    @PostMapping(value = "/test")
+  @RequestMapping(value = "/test",method = RequestMethod.GET)
     @ApiOperation(value = "respMsg", notes = "respMsg")
-    public String respMsg(@RequestBody String request) {
-        WechatMessageResponse resp = new WechatMessageResponse();
+    public String respMsg(@RequestParam("signature") String signature,
+                          @RequestParam("timestamp") String timestamp,
+                          @RequestParam("nonce") String nonce,
+                          @RequestParam("echostr") String echostr,
+                          @RequestParam("token") String token) {
+        //WechatMessageResponse resp = new WechatMessageResponse();
         try {
-            log.info("Get request url /api/message/test: "+request);
-            resp.setContent("test");
-            return "success";
+            log.info("Get request url /api/message/test: "+echostr);
+            //resp.setContent("test");
+            return echostr;
         } catch (Exception e) {
             return "success";
         }
