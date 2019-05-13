@@ -1,6 +1,5 @@
 package com.hapiniu.demo.springbootdocker.pojo;
 
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import com.hapiniu.demo.springbootdocker.pojo.common.RequestBaseInfo;
 import lombok.Data;
 
@@ -19,8 +18,8 @@ public class WechatMessageRequest extends RequestBaseInfo {
 
     private Integer createTime;
 
-private String msgType;
+    private String msgType;
 
-private String content;
-private  Long msgId;
+    private String content;
+    private Long msgId;
 }
