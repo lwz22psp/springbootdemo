@@ -45,14 +45,14 @@ public class UserController {
             } else if (request.getUserPwd() == null || request.getUserPwd().isEmpty()) {
                 resp.error("密码不能为空");
             } else if (lxmUserBo.verifyUsrName(request.getUserName())
-                    ||lxmUserBo.verifyUsrName(request.getNickName())
-                    ||lxmUserBo.verifyUsrName(request.getEmail())
-                    ||lxmUserBo.verifyUsrName(request.getPhone())) {
+                    || lxmUserBo.verifyUsrName(request.getNickName())
+                    || lxmUserBo.verifyUsrName(request.getEmail())
+                    || lxmUserBo.verifyUsrName(request.getPhone())) {
                 resp.error("用户名已注册");
             } else {
-                LxmUserModel model =new LxmUserModel(0,request.getUserName(), MD5.eccrypt(request.getUserPwd()),request.getPhone(),request.getEmail(),request.getNickName());
+                LxmUserModel model = new LxmUserModel(0, request.getUserName(), MD5.eccrypt(request.getUserPwd()), request.getPhone(), request.getEmail(), request.getNickName());
                 lxmUserBo.addLxmUser(model);
-                String token =  login(request.getUserName(),request.getUserPwd());
+                String token = login(request.getUserName(), request.getUserPwd());
                 resp.setToken(token);
                 resp.success();
             }
@@ -66,39 +66,51 @@ public class UserController {
     @ApiOperation(value = "用户登陆", notes = "用户登陆")
     public LxmUserLoginResponse login(@RequestBody LxmUserLoginRequest request) {
         LxmUserLoginResponse resp = new LxmUserLoginResponse();
-        String token = login(request.getUserName(),request.getUserPwd());
-        if("".equals(token)){
+        String token = login(request.getUserName(), request.getUserPwd());
+        if ("".equals(token)) {
             resp.error("用户名密码错误");
-        }else{
+        } else {
             resp.setToken(token);
             resp.success();
         }
         return resp;
     }
 
+    @RequestMapping(value = "/logout", method = RequestMethod.POST)
+    @ApiOperation(value = "用户注销", notes = "用户注销")
+    public LxmUserLogoutResponse logout(@RequestBody LxmUserLogoutRequest request){
+        LxmUserLogoutResponse response = new LxmUserLogoutResponse();
+        try{
+            logout(request.getHeader().getToken());
+            response.success();
+        }catch (Exception e){
+            response.error(e.getMessage());
+        }
+        return response;
+    }
+
     @RequestMapping(value = "/verifyToken", method = RequestMethod.POST)
     @ApiOperation(value = "通过token获取用户信息", notes = "通过token获取用户信息")
     public GetLxmUserResponse verifyToken(@RequestBody GetLxmUserRequest request) {
         GetLxmUserResponse resp = new GetLxmUserResponse();
-        try{
+        try {
             String token = request.getHeader().getToken();
-            if("".equals(token)||!redisTemplate.opsForHash().hasKey("user", request.getHeader().getToken())){
+            if ("".equals(token) || !redisTemplate.opsForHash().hasKey("user", request.getHeader().getToken())) {
                 resp.error("token错误");
-            }else{
+            } else {
                 Object redisObject = redisTemplate.opsForHash().get("user", request.getHeader().getToken());
-                int userId = JSON.parseObject(JSON.toJSONString(redisObject),LxmUserModel.class).getUserId() ;
+                int userId = JSON.parseObject(JSON.toJSONString(redisObject), LxmUserModel.class).getUserId();
                 resp.setData(lxmUserBo.getLxmUserModelById(userId));
                 resp.success();
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             resp.error(e.getMessage());
         }
-
         return resp;
     }
 
 
-    private String login(String userName,String userPwd){
+    private String login(String userName, String userPwd) {
         int uid = lxmUserBo.login(userName, userPwd);
         if (uid == 0) {
             return "";
@@ -108,7 +120,13 @@ public class UserController {
             model.setUserId(uid);
             redisTemplate.opsForHash().put("user", uuid, model);
             redisTemplate.expire(uuid, 10, TimeUnit.DAYS);
-           return uuid;
+            return uuid;
+        }
+    }
+
+    private void logout(String token) {
+        if (token != null && !token.isEmpty()) {
+            redisTemplate.opsForHash().delete("user", token);
         }
     }
 
