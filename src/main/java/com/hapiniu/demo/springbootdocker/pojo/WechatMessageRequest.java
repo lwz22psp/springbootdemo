@@ -5,7 +5,6 @@ import com.hapiniu.demo.springbootdocker.pojo.common.RequestBaseInfo;
 import lombok.Data;
 
 @Data
-@JacksonXmlRootElement(localName ="xml")
 public class WechatMessageRequest extends RequestBaseInfo {
 
     /**
