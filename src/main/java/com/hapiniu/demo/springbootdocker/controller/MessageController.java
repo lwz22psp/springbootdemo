@@ -8,7 +8,10 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
@@ -34,8 +37,15 @@ public class MessageController {
     public String respMsg(@RequestParam("signature") String signature,
                           @RequestParam("timestamp") String timestamp,
                           @RequestParam("nonce") String nonce,
-                          @RequestParam("echostr") String echostr,
-                          @RequestParam("hello") String token) {
+                          @RequestParam("echostr") String echostr) {
+      ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+      HttpServletRequest request = attributes.getRequest();
+
+      //url
+      log.info("url="+request.getRequestURI());
+
+
+      
         //WechatMessageResponse resp = new WechatMessageResponse();
         try {
             log.info("Get request url /api/message/test: "+echostr);
