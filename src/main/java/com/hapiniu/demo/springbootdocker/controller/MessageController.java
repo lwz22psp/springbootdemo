@@ -35,7 +35,7 @@ public class MessageController {
                           @RequestParam("timestamp") String timestamp,
                           @RequestParam("nonce") String nonce,
                           @RequestParam("echostr") String echostr,
-                          @RequestParam("token") String token) {
+                          @RequestParam("hello") String token) {
         //WechatMessageResponse resp = new WechatMessageResponse();
         try {
             log.info("Get request url /api/message/test: "+echostr);
