@@ -3,11 +3,16 @@ package com.hapiniu.demo.springbootdocker.pojo;
 import com.hapiniu.demo.springbootdocker.pojo.common.ResponseBaseInfo;
 import lombok.Data;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import java.io.Serializable;
+
 /**
  * @author dark
  **/
 @Data
-public class WechatMessageResponse extends ResponseBaseInfo {
+@XmlRootElement(name = "xml")
+public class WechatMessageResponse extends ResponseBaseInfo implements Serializable {
     /**
      * 开发者微信号
      */
