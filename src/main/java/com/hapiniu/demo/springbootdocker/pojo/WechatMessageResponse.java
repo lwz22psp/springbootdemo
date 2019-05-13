@@ -1,31 +1,35 @@
 package com.hapiniu.demo.springbootdocker.pojo;
 
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import com.hapiniu.demo.springbootdocker.pojo.common.ResponseBaseInfo;
 import lombok.Data;
-
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import java.io.Serializable;
 
 /**
  * @author dark
  **/
 @Data
-@XmlRootElement(name = "xml")
-public class WechatMessageResponse extends ResponseBaseInfo implements Serializable {
+@JacksonXmlRootElement(localName = "xml")
+public class WechatMessageResponse extends ResponseBaseInfo {
     /**
      * 开发者微信号
      */
+    @JacksonXmlProperty(localName = "ToUserName")
     private String toUserName;
 
     /**
      * 发送方帐号（一个OpenID）
      */
+
+    @JacksonXmlProperty(localName = "FromUserName")
     private String fromUserName;
 
+    @JacksonXmlProperty(localName = "CreateTime")
     private Integer createTime;
 
+    @JacksonXmlProperty(localName = "MsgType")
     private String msgType;
 
+    @JacksonXmlProperty(localName = "Content")
     private String content;
 }
