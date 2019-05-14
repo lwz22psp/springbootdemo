@@ -3,8 +3,10 @@ package com.hapiniu.demo.springbootdocker.controller;
 import com.alibaba.fastjson.JSON;
 import com.hapiniu.demo.springbootdocker.pojo.WechatMessageRequest;
 import com.hapiniu.demo.springbootdocker.pojo.WechatMessageResponse;
+import com.hapiniu.demo.springbootdocker.ws.WebSocketServer;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +24,8 @@ public class MessageController {
     static Logger log = Logger.getLogger(MessageController.class.getName());
     @Value("${regis.code}")
     private String env;
+
+
 
     @RequestMapping(value = "/test", method = RequestMethod.POST,
             consumes = {MediaType.TEXT_XML_VALUE},
@@ -42,6 +46,9 @@ public class MessageController {
             }
             if ("hapiniu666".equals(request.getContent())) {
                 resp.setContent("恭喜泥～注册码：" + env);
+            }
+            if(request.getContent().contains("#wstest")){
+                WebSocketServer.sendInfo(request.getContent().replace("#wstest",""),null);
             }
         } catch (Exception e) {
             resp.error(e.getMessage());
