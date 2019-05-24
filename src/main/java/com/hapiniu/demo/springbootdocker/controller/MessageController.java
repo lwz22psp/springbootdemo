@@ -48,7 +48,11 @@ public class MessageController {
                 resp.setContent("恭喜泥～注册码：" + env);
             }
             if(request.getContent().contains("#wstest")){
-                WebSocketServer.sendInfo(request.getContent().replace("#wstest",""),null);
+                if(verifyMessage(request.getContent())){
+                    WebSocketServer.sendInfo(request.getContent().replace("#wstest",""),null);
+                }else {
+                    resp.setContent("弹幕包含违禁词汇，不能发送～ (￣_,￣ )");
+                }
             }
         } catch (Exception e) {
             resp.error(e.getMessage());
@@ -64,6 +68,10 @@ public class MessageController {
                          @RequestParam("nonce") String nonce,
                          @RequestParam("echostr") String echostr) {
         return echostr;
+    }
+
+    private boolean verifyMessage(String msg){
+        return !((msg.contains("hapiniu")||msg.contains("哈皮牛"))&&msg.contains("两拨"));
     }
 
 }
