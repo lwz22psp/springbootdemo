@@ -18,9 +18,7 @@ import java.util.logging.Logger;
  **/
 @Service
 public class WechatMessageBo {
-
-
-    static Logger log = Logger.getLogger(WechatMessageBo.class.getName());
+    private static Logger log = Logger.getLogger(WechatMessageBo.class.getName());
     private static String DEFAULT_REPLAY_STRING = "咕咕咕～";
     private static Integer SUCCESS_RESULT = 0;
     @Value("${regis.code}")
@@ -48,6 +46,7 @@ public class WechatMessageBo {
         if (wechatMessageModel.getOutput()==null||wechatMessageModel.getOutput().isEmpty()) {
             wechatMessageModel.setOutput(cheatBotResult(input));
         }
+        log.info("WechatMessageBo DealWithMessage finish, result: "+JSON.toJSONString(wechatMessageModel));
         return wechatMessageModel;
     }
 
