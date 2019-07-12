@@ -1,12 +1,13 @@
 package com.hapiniu.demo.springbootdocker.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.hapiniu.demo.springbootdocker.bo.WechatMessageBo;
+import com.hapiniu.demo.springbootdocker.model.WechatMessageModel;
 import com.hapiniu.demo.springbootdocker.pojo.WechatMessageRequest;
 import com.hapiniu.demo.springbootdocker.pojo.WechatMessageResponse;
 import com.hapiniu.demo.springbootdocker.ws.WebSocketServer;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -24,8 +25,11 @@ public class MessageController {
     static Logger log = Logger.getLogger(MessageController.class.getName());
     @Value("${regis.code}")
     private String env;
+    private WechatMessageBo wechatMessageBo;
 
-
+    public void setWechatMessageBo(WechatMessageBo wechatMessageBo) {
+        this.wechatMessageBo = wechatMessageBo;
+    }
 
     @RequestMapping(value = "/test", method = RequestMethod.POST,
             consumes = {MediaType.TEXT_XML_VALUE},
@@ -33,29 +37,16 @@ public class MessageController {
     )
     @ApiOperation(value = "respMsg", notes = "respMsg")
     public WechatMessageResponse respMsg(@RequestBody WechatMessageRequest request) {
-        WechatMessageResponse resp = new WechatMessageResponse();
+        WechatMessageResponse resp = null;
         try {
             log.info("Get request url /api/message/test: " + JSON.toJSONString(request));
-            resp.setCreateTime(request.getCreateTime());
-            resp.setFromUserName(request.getToUserName());
-            resp.setToUserName(request.getFromUserName());
-            resp.setMsgType(request.getMsgType());
-            resp.setContent("咕咕咕～");
-            if (request.getContent().contains("注册码") || request.getContent().contains("验证码")) {
-                resp.setContent("请说出神奇小密码～");
-            }
-            if ("hapiniu666".equals(request.getContent())) {
-                resp.setContent("恭喜泥～注册码：" + env);
-            }
-            if(request.getContent().contains("#wstest")){
-                if(verifyMessage(request.getContent())){
-                    WebSocketServer.sendInfo(request.getContent().replace("#wstest",""),null);
-                }else {
-                    resp.setContent("弹幕包含违禁词汇，不能发送～ (￣_,￣ )");
-                }
-            }
+            resp = initWechatMessageResponse(request);
+            WechatMessageModel result = wechatMessageBo.dealWithMessage(request.getContent());
+            resp.setContent(result.getOutput());
         } catch (Exception e) {
-            resp.error(e.getMessage());
+            if (resp != null) {
+                resp.error(e.getMessage());
+            }
         }
         return resp;
     }
@@ -70,8 +61,13 @@ public class MessageController {
         return echostr;
     }
 
-    private boolean verifyMessage(String msg){
-        return !((msg.contains("hapiniu")||msg.contains("哈皮牛"))&&msg.contains("两拨"));
+    private WechatMessageResponse initWechatMessageResponse(WechatMessageRequest request) {
+        WechatMessageResponse resp = new WechatMessageResponse();
+        resp.setCreateTime(request.getCreateTime());
+        resp.setFromUserName(request.getToUserName());
+        resp.setToUserName(request.getFromUserName());
+        resp.setMsgType(request.getMsgType());
+        return resp;
     }
 
 }
