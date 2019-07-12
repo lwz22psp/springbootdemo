@@ -8,6 +8,7 @@ import com.hapiniu.demo.springbootdocker.pojo.WechatMessageResponse;
 import com.hapiniu.demo.springbootdocker.ws.WebSocketServer;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +27,7 @@ public class MessageController {
     @Value("${regis.code}")
     private String env;
     private WechatMessageBo wechatMessageBo;
-
+    @Autowired
     public void setWechatMessageBo(WechatMessageBo wechatMessageBo) {
         this.wechatMessageBo = wechatMessageBo;
     }
