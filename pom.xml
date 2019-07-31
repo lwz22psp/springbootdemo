@@ -18,6 +18,7 @@
         <java.version>1.8</java.version>
         <docker.image.prefix>springboot</docker.image.prefix>
         <spring-cloud.version>Greenwich.SR1</spring-cloud.version>
+        <springfox-swagger.version>2.5.0</springfox-swagger.version>
     </properties>
 
     <dependencies>
@@ -92,12 +93,12 @@
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
-            <version>2.5.0</version>
+            <version>${springfox-swagger.version}</version>
         </dependency>
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
-            <version>2.5.0</version>
+            <version>${springfox-swagger.version}</version>
         </dependency>
         <!--swagger2-->
 
@@ -127,6 +128,24 @@
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
             <version>1.2.58</version>
+        </dependency>
+
+<!--        junit-->
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13-beta-3</version>
+            <scope>test</scope>
+        </dependency>
+
+<!--        mockito-->
+
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>3.0.0</version>
+            <scope>test</scope>
         </dependency>
 
     </dependencies>

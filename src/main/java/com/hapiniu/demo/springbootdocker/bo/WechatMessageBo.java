@@ -23,6 +23,11 @@ public class WechatMessageBo {
     private static Integer SUCCESS_RESULT = 0;
     @Value("${regis.code}")
     private String registCode;
+
+    public void setRegistCode(String registCode) {
+        this.registCode = registCode;
+    }
+
     private QinyunkeServiceProxy qinyunkeServiceProxy;
 
     @Autowired
