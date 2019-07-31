@@ -45,6 +45,8 @@ public class LxmUser implements Serializable {
      */
     private Boolean status;
 
+    private String wechatUnionID;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -111,6 +113,14 @@ public class LxmUser implements Serializable {
         this.status = status;
     }
 
+    public String getWechatUnionID() {
+        return wechatUnionID;
+    }
+
+    public void setWechatUnionID(String wechatUnionID) {
+        this.wechatUnionID = wechatUnionID;
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -130,7 +140,8 @@ public class LxmUser implements Serializable {
             && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
             && (this.getUpdater() == null ? other.getUpdater() == null : this.getUpdater().equals(other.getUpdater()))
             && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
-            && (this.getStatus() == null ? other.getStatus() == null : this.getStatus().equals(other.getStatus()));
+            && (this.getStatus() == null ? other.getStatus() == null : this.getStatus().equals(other.getStatus()))
+            && (this.getWechatUnionID() == null ? other.getWechatUnionID() == null : this.getWechatUnionID().equals(other.getWechatUnionID()));
     }
 
     @Override
@@ -145,6 +156,7 @@ public class LxmUser implements Serializable {
         result = prime * result + ((getUpdater() == null) ? 0 : getUpdater().hashCode());
         result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
         result = prime * result + ((getStatus() == null) ? 0 : getStatus().hashCode());
+        result = prime * result + ((getWechatUnionID() == null) ? 0 : getWechatUnionID().hashCode());
         return result;
     }
 
@@ -162,6 +174,7 @@ public class LxmUser implements Serializable {
         sb.append(", updater=").append(updater);
         sb.append(", updateTime=").append(updateTime);
         sb.append(", status=").append(status);
+        sb.append(", wechatUnionID=").append(wechatUnionID);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

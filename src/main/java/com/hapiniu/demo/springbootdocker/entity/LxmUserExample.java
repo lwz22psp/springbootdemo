@@ -644,6 +644,76 @@ public class LxmUserExample {
             addCriterion("`Status` not between", value1, value2, "status");
             return (Criteria) this;
         }
+
+        public Criteria andWechatUnionIDIsNull() {
+            addCriterion("WechatUnionID is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andWechatUnionIDIsNotNull() {
+            addCriterion("WechatUnionID is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andWechatUnionIDEqualTo(String value) {
+            addCriterion("WechatUnionID =", value, "wechatUnionID");
+            return (Criteria) this;
+        }
+
+        public Criteria andWechatUnionIDNotEqualTo(String value) {
+            addCriterion("WechatUnionID <>", value, "wechatUnionID");
+            return (Criteria) this;
+        }
+
+        public Criteria andWechatUnionIDGreaterThan(String value) {
+            addCriterion("WechatUnionID >", value, "wechatUnionID");
+            return (Criteria) this;
+        }
+
+        public Criteria andWechatUnionIDGreaterThanOrEqualTo(String value) {
+            addCriterion("WechatUnionID >=", value, "wechatUnionID");
+            return (Criteria) this;
+        }
+
+        public Criteria andWechatUnionIDLessThan(String value) {
+            addCriterion("WechatUnionID <", value, "wechatUnionID");
+            return (Criteria) this;
+        }
+
+        public Criteria andWechatUnionIDLessThanOrEqualTo(String value) {
+            addCriterion("WechatUnionID <=", value, "wechatUnionID");
+            return (Criteria) this;
+        }
+
+        public Criteria andWechatUnionIDLike(String value) {
+            addCriterion("WechatUnionID like", value, "wechatUnionID");
+            return (Criteria) this;
+        }
+
+        public Criteria andWechatUnionIDNotLike(String value) {
+            addCriterion("WechatUnionID not like", value, "wechatUnionID");
+            return (Criteria) this;
+        }
+
+        public Criteria andWechatUnionIDIn(List<String> values) {
+            addCriterion("WechatUnionID in", values, "wechatUnionID");
+            return (Criteria) this;
+        }
+
+        public Criteria andWechatUnionIDNotIn(List<String> values) {
+            addCriterion("WechatUnionID not in", values, "wechatUnionID");
+            return (Criteria) this;
+        }
+
+        public Criteria andWechatUnionIDBetween(String value1, String value2) {
+            addCriterion("WechatUnionID between", value1, value2, "wechatUnionID");
+            return (Criteria) this;
+        }
+
+        public Criteria andWechatUnionIDNotBetween(String value1, String value2) {
+            addCriterion("WechatUnionID not between", value1, value2, "wechatUnionID");
+            return (Criteria) this;
+        }
     }
 
     /**

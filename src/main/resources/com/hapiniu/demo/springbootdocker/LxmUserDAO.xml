@@ -10,6 +10,7 @@
     <result column="Updater" jdbcType="VARCHAR" property="updater" />
     <result column="UpdateTime" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="Status" jdbcType="BIT" property="status" />
+    <result column="WechatUnionID" jdbcType="VARCHAR" property="wechatUnionID" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -70,7 +71,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    Id, UserName, UserPassword, Creater, CreateTime, Updater, UpdateTime, `Status`
+    Id, UserName, UserPassword, Creater, CreateTime, Updater, UpdateTime, `Status`, WechatUnionID
   </sql>
   <select id="selectByExample" parameterType="com.hapiniu.demo.springbootdocker.entity.LxmUserExample" resultMap="BaseResultMap">
     select
@@ -113,10 +114,10 @@
   <insert id="insert" keyColumn="Id" keyProperty="id" parameterType="com.hapiniu.demo.springbootdocker.entity.LxmUser" useGeneratedKeys="true">
     insert into lxm_user (UserName, UserPassword, Creater, 
       CreateTime, Updater, UpdateTime, 
-      `Status`)
+      `Status`, WechatUnionID)
     values (#{userName,jdbcType=VARCHAR}, #{userPassword,jdbcType=VARCHAR}, #{creater,jdbcType=VARCHAR}, 
       #{createTime,jdbcType=TIMESTAMP}, #{updater,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{status,jdbcType=BIT})
+      #{status,jdbcType=BIT}, #{wechatUnionID,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" keyColumn="Id" keyProperty="id" parameterType="com.hapiniu.demo.springbootdocker.entity.LxmUser" useGeneratedKeys="true">
     insert into lxm_user
@@ -142,6 +143,9 @@
       <if test="status != null">
         `Status`,
       </if>
+      <if test="wechatUnionID != null">
+        WechatUnionID,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="userName != null">
@@ -164,6 +168,9 @@
       </if>
       <if test="status != null">
         #{status,jdbcType=BIT},
+      </if>
+      <if test="wechatUnionID != null">
+        #{wechatUnionID,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -200,6 +207,9 @@
       <if test="record.status != null">
         `Status` = #{record.status,jdbcType=BIT},
       </if>
+      <if test="record.wechatUnionID != null">
+        WechatUnionID = #{record.wechatUnionID,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -214,7 +224,8 @@
       CreateTime = #{record.createTime,jdbcType=TIMESTAMP},
       Updater = #{record.updater,jdbcType=VARCHAR},
       UpdateTime = #{record.updateTime,jdbcType=TIMESTAMP},
-      `Status` = #{record.status,jdbcType=BIT}
+      `Status` = #{record.status,jdbcType=BIT},
+      WechatUnionID = #{record.wechatUnionID,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -243,6 +254,9 @@
       <if test="status != null">
         `Status` = #{status,jdbcType=BIT},
       </if>
+      <if test="wechatUnionID != null">
+        WechatUnionID = #{wechatUnionID,jdbcType=VARCHAR},
+      </if>
     </set>
     where Id = #{id,jdbcType=INTEGER}
   </update>
@@ -254,7 +268,8 @@
       CreateTime = #{createTime,jdbcType=TIMESTAMP},
       Updater = #{updater,jdbcType=VARCHAR},
       UpdateTime = #{updateTime,jdbcType=TIMESTAMP},
-      `Status` = #{status,jdbcType=BIT}
+      `Status` = #{status,jdbcType=BIT},
+      WechatUnionID = #{wechatUnionID,jdbcType=VARCHAR}
     where Id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

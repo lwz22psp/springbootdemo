@@ -5,7 +5,6 @@ import com.hapiniu.demo.springbootdocker.bo.WechatMessageBo;
 import com.hapiniu.demo.springbootdocker.model.WechatMessageModel;
 import com.hapiniu.demo.springbootdocker.pojo.WechatMessageRequest;
 import com.hapiniu.demo.springbootdocker.pojo.WechatMessageResponse;
-import com.hapiniu.demo.springbootdocker.ws.WebSocketServer;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

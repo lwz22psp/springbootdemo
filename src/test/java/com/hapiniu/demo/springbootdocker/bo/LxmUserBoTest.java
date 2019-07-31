@@ -106,7 +106,7 @@ public class LxmUserBoTest {
     }
 
     private LxmUser generateLxmUser(int userId) {
-        String jsonString = "{\"createTime\":1564538701567,\"creater\":\"\",\"id\":" + userId + ",\"status\":true,\"updateTime\":1564538701568,\"updater\":\"\",\"userName\":\"mock_user_name_" + userId + "\",\"userPassword\":\"e10adc3949ba59abbe56e057f20f883e\"}\n";
+        String jsonString = "{\"createTime\":1564538701567,\"creater\":\"\",\"id\":" + userId + ",\"status\":true,\"updateTime\":1564538701568,\"updater\":\"\",\"wechatUnionID\":\"\",\"userName\":\"mock_user_name_" + userId + "\",\"userPassword\":\"e10adc3949ba59abbe56e057f20f883e\"}\n";
         return JSON.parseObject(jsonString, LxmUser.class);
     }
 
@@ -133,7 +133,7 @@ public class LxmUserBoTest {
         result.setPhone("156" + (int) (Math.random() * 90000000 + 10000000));
         result.setEmail("mock_email_1@test.com");
         result.setNickName("mock_nick_name_1");
-
+        result.setWechatUnionID("mock_wechatUnionID_1");
         return result;
     }
 }

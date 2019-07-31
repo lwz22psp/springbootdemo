@@ -83,6 +83,7 @@ public class LxmUserBo {
         model.setUserId(userEntity.getId());
         model.setUserName(userEntity.getUserName());
         model.setUserPwd(userEntity.getUserPassword());
+        model.setWechatUnionID(userEntity.getWechatUnionID());
         if (userInfoEntity != null) {
             model.setEmail(userInfoEntity.getUserEmail());
             model.setPhone(userInfoEntity.getUserPhone());

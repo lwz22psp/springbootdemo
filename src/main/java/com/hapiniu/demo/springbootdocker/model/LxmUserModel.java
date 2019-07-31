@@ -32,5 +32,7 @@ public class LxmUserModel {
      */
     private String nickName;
 
+    private String wechatUnionID;
+
 
 }

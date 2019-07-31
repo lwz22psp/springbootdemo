@@ -50,7 +50,7 @@ public class UserController {
                     || lxmUserBo.verifyUsrName(request.getPhone())) {
                 resp.error("用户名已注册");
             } else {
-                LxmUserModel model = new LxmUserModel(0, request.getUserName(), MD5.eccrypt(request.getUserPwd()), request.getPhone(), request.getEmail(), request.getNickName());
+                LxmUserModel model = new LxmUserModel(0, request.getUserName(), MD5.eccrypt(request.getUserPwd()), request.getPhone(), request.getEmail(), request.getNickName(),null);
                 lxmUserBo.addLxmUser(model);
                 String token = login(request.getUserName(), request.getUserPwd());
                 resp.setToken(token);

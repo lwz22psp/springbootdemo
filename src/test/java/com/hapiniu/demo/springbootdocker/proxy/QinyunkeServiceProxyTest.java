@@ -17,6 +17,6 @@ public class QinyunkeServiceProxyTest {
 
     @Test
     public void cheatTest() {
-        String result = proxy.cheat("free", "0", "你好");
+         proxy.cheat("free", "0", "你好");
     }
 }
