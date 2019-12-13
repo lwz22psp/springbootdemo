@@ -61,7 +61,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 //OPTIONS请求全部放行
                 .antMatchers( HttpMethod.OPTIONS, "/**").permitAll()
-                .antMatchers(  "/websocket/*").permitAll()
+                .antMatchers(  "/websocket/**").permitAll()
+
+                .antMatchers(  "/api/message/**").permitAll()
                 //登录接口放行
                 .antMatchers("/api/user/login").permitAll()
                 //登录接口放行
