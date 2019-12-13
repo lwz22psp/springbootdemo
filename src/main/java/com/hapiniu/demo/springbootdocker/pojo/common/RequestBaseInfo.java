@@ -7,5 +7,4 @@ import lombok.Data;
  **/
 @Data
 public class RequestBaseInfo {
-    private RequestHeader header;
 }

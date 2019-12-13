@@ -7,6 +7,7 @@ import com.hapiniu.demo.springbootdocker.proxy.model.QinyunkeServiceModel;
 import com.hapiniu.demo.springbootdocker.ws.WebSocketServer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -16,7 +17,7 @@ import java.util.logging.Logger;
 /**
  * @author dark
  **/
-@Service
+@Component
 public class WechatMessageBo {
     private static Logger log = Logger.getLogger(WechatMessageBo.class.getName());
     private static String DEFAULT_REPLAY_STRING = "咕咕咕～";

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hapiniu.demo.springbootdocker.dao.LxmUserSearchDAO">
+    <resultMap id="BaseResultMap" type="com.hapiniu.demo.springbootdocker.entity.LxmUserSearchResult">
+        <id column="id" jdbcType="INTEGER" property="userId" />
+        <result column="UserName" jdbcType="VARCHAR" property="userName" />
+        <result column="UserPhone" jdbcType="VARCHAR" property="phone" />
+        <result column="UserEmail" jdbcType="VARCHAR" property="email" />
+        <result column="NickName" jdbcType="VARCHAR" property="nickName" />
+        <result column="WechatUnionID" jdbcType="VARCHAR" property="wechatUnionID" />
+    </resultMap>
+    <select id="searchUser" parameterType="map" resultMap="BaseResultMap">
+        select lu.id,lu.UserName,lui.UserPhone,lui.UserEmail,lui.NickName,lu.WechatUnionID
+        from lxm_user lu
+        left join lxm_user_info lui on lu.id = lui.UserId
+        <where>
+            <if test="searchParam != null and searchParam !=''">
+               and (lu.UserName like #{searchParam} or lui.UserPhone like #{searchParam}
+                or lui.UserEmail like #{searchParam}
+                or lui.NickName like #{searchParam}
+               )
+            </if>
+        </where>
+        order by lu.CreateTime desc
+        <if test="limit != null">
+            <if test="offset != null">
+                limit ${offset}, ${limit}
+            </if>
+            <if test="offset == null">
+                limit ${limit}
+            </if>
+        </if>
+    </select>
+
+     <select id="countUser" parameterType="map" resultType="java.lang.Long">
+         select count(*)
+         from lxm_user lu
+         left join lxm_user_info lui on lu.id = lui.UserId
+         <where>
+             <if test="searchParam != null and searchParam !=''">
+                 and (lu.UserName like #{searchParam} or lui.UserPhone like #{searchParam}
+                 or lui.UserEmail like #{searchParam}
+                 or lui.NickName like #{searchParam}
+                 )
+             </if>
+         </where>
+
+
+     </select>
+
+</mapper>

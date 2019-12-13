@@ -7,7 +7,7 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @SpringBootApplication
-@MapperScan(value = {"com.hapiniu.demo.springbootdocker"})
+@MapperScan(value = {"com.hapiniu.demo.springbootdocker.dao"})
 @EnableEurekaClient
 @EnableFeignClients
 public class SpringbootdockerApplication {

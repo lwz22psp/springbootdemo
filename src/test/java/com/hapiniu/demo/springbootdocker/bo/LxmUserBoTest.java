@@ -8,11 +8,14 @@ import com.hapiniu.demo.springbootdocker.entity.LxmUserExample;
 import com.hapiniu.demo.springbootdocker.entity.LxmUserInfo;
 import com.hapiniu.demo.springbootdocker.entity.LxmUserInfoExample;
 import com.hapiniu.demo.springbootdocker.model.LxmUserModel;
+import com.hapiniu.demo.springbootdocker.model.common.PageModel;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
@@ -103,6 +106,56 @@ public class LxmUserBoTest {
         bo.addLxmUser(generateLxmUserModel());
         verify(lxmUserInfoDAO).insert(any());
 
+    }
+
+    @Test
+    public void deletedeleteLxmUserModelTest(){
+        LxmUserDAO lxmUserDAO = mock(LxmUserDAO.class);
+        LxmUserInfoDAO lxmUserInfoDAO = mock(LxmUserInfoDAO.class);
+
+        LxmUserBo bo = new LxmUserBo();
+        bo.setLxmUserDAO(lxmUserDAO);
+        bo.setLxmUserInfoDAO(lxmUserInfoDAO);
+
+        bo.deleteLxmUserModel(1);
+        verify(lxmUserDAO).updateByPrimaryKeySelective(any());
+        verify(lxmUserInfoDAO).updateByPrimaryKeySelective(any());
+    }
+
+    @Test
+    public void lstLxmUserModelTest(){
+        LxmUserDAO lxmUserDAO = mock(LxmUserDAO.class);
+        LxmUserInfoDAO lxmUserInfoDAO = mock(LxmUserInfoDAO.class);
+
+        LxmUserBo bo = new LxmUserBo();
+        bo.setLxmUserDAO(lxmUserDAO);
+        bo.setLxmUserInfoDAO(lxmUserInfoDAO);
+        when(lxmUserDAO.selectByExample(any(LxmUserExample.class))).thenReturn(generateLxmUserList(10));
+        when(lxmUserInfoDAO.selectByExample(any(LxmUserInfoExample.class))).thenReturn(generateLxmUserInfoList(10));
+
+        List<LxmUserModel> result = bo.lstLxmUserModel("",new PageModel());
+        Assert.assertEquals(10, result.size());
+        when(lxmUserDAO.selectByExample(any(LxmUserExample.class))).thenReturn(new ArrayList<>());
+        when(lxmUserInfoDAO.selectByExample(any(LxmUserInfoExample.class))).thenReturn(new ArrayList<>());
+
+        List<LxmUserModel> result2 = bo.lstLxmUserModel("",new PageModel());
+        Assert.assertEquals(0, result.size());
+    }
+
+    private List<LxmUser> generateLxmUserList(int count){
+        List<LxmUser> result = new ArrayList<>();
+        for(int i=1;i<=count;i++){
+            result.add(generateLxmUser(i));
+        }
+        return result;
+    }
+
+    private List<LxmUserInfo> generateLxmUserInfoList(int count){
+        List<LxmUserInfo> result = new ArrayList<>();
+        for(int i=1;i<=count;i++){
+            result.add(generateLxmUserInfo(i));
+        }
+        return result;
     }
 
     private LxmUser generateLxmUser(int userId) {

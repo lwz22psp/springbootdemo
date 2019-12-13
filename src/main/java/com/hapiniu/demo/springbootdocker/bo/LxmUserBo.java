@@ -2,24 +2,41 @@ package com.hapiniu.demo.springbootdocker.bo;
 
 import com.hapiniu.demo.springbootdocker.dao.LxmUserDAO;
 import com.hapiniu.demo.springbootdocker.dao.LxmUserInfoDAO;
-import com.hapiniu.demo.springbootdocker.entity.LxmUser;
-import com.hapiniu.demo.springbootdocker.entity.LxmUserExample;
-import com.hapiniu.demo.springbootdocker.entity.LxmUserInfo;
-import com.hapiniu.demo.springbootdocker.entity.LxmUserInfoExample;
+import com.hapiniu.demo.springbootdocker.dao.LxmUserSearchDAO;
+import com.hapiniu.demo.springbootdocker.entity.*;
 import com.hapiniu.demo.springbootdocker.model.LxmUserModel;
+import com.hapiniu.demo.springbootdocker.model.common.PageModel;
 import com.hapiniu.demo.springbootdocker.util.MD5;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
-@Service
+/**
+ * @author dark
+ */
+@Component
 public class LxmUserBo {
 
     //region Autowired
     private LxmUserDAO lxmUserDAO;
     private LxmUserInfoDAO lxmUserInfoDAO;
+    private RolePermissionBo rolePermissionBo;
+    private LxmUserSearchDAO lxmUserSearchDAO;
+
+    @Autowired
+    public void setLxmUserSearchDAO(LxmUserSearchDAO lxmUserSearchDAO) {
+        this.lxmUserSearchDAO = lxmUserSearchDAO;
+    }
+
+    @Autowired
+    public void setRolePermissionBo(RolePermissionBo rolePermissionBo) {
+        this.rolePermissionBo = rolePermissionBo;
+    }
 
     @Autowired
     public void setLxmUserInfoDAO(LxmUserInfoDAO lxmUserInfoDAO) {
@@ -40,34 +57,53 @@ public class LxmUserBo {
     }
 
     public boolean verifyUsrName(String userName) {
-        return findUser(userName)>0;
+        return findUser(userName) > 0;
     }
 
-    public int login(String prarm,String userPwd){
+
+    public List<LxmUserModel> lstLxmUserModel(String param, PageModel pageModel) {
+        param ="%"+param+"%";
+        List<LxmUserModel> results = lxmUserSearchDAO.searchUser(param, pageModel.getPageIndex(), pageModel.getPageCount())
+                .stream().map(this::convertToModel).collect(Collectors.toList());
+        pageModel.setTotalCount(lxmUserSearchDAO.countUser(param).intValue());
+        return  results;
+    }
+
+
+    public void deleteLxmUserModel(int userId) {
+        lxmUserDAO.deleteByPrimaryKey(userId);
+        LxmUserInfoExample example = new LxmUserInfoExample();
+        example.createCriteria().andUserIdEqualTo(userId);
+        lxmUserInfoDAO.deleteByExample(example);
+        rolePermissionBo.deleteLxmSysUserRoleByUserId(userId);
+    }
+
+    public int login(String prarm, String userPwd) {
         int uid = findUser(prarm);
-        if(uid==0){
+        if (uid == 0) {
             return 0;
         }
         LxmUserModel userModel = getLxmUserModelById(uid);
-        return  userModel.getUserPwd().equals(MD5.eccrypt(userPwd))?uid:0;
+        return userModel.getUserPwd().equals(MD5.eccrypt(userPwd)) ? uid : 0;
     }
 
-    private int findUser(String param){
+    private int findUser(String param) {
         LxmUserExample query = new LxmUserExample();
         query.createCriteria().andStatusEqualTo(true).andUserNameEqualTo(param);
         List<LxmUser> result = queryLxmUser(query);
-        if(queryLxmUser(query).isEmpty()){
+        if (result.isEmpty()) {
             LxmUserInfoExample queryEntity = new LxmUserInfoExample();
             queryEntity.createCriteria();
             queryEntity.or().andNickNameEqualTo(param);
             queryEntity.or().andUserPhoneEqualTo(param);
             queryEntity.or().andUserEmailEqualTo(param);
             List<LxmUserInfo> lxmUserInfoList = queryLxmUserInfo(queryEntity);
-            return lxmUserInfoList.isEmpty()?0:lxmUserInfoList.get(0).getUserId();
-        }else{
+            return lxmUserInfoList.isEmpty() ? 0 : lxmUserInfoList.get(0).getUserId();
+        } else {
             return result.get(0).getId();
         }
     }
+
 
     public LxmUserModel getLxmUserModelById(Integer userId) {
         LxmUser user = queryLxmUserById(userId);
@@ -78,16 +114,21 @@ public class LxmUserBo {
         return convertToModel(user, userInfo);
     }
 
+    public LxmUserModel getLxmUserModelByString(String s) {
+        LxmUser user = queryLxmUserById(findUser(s));
+        if (user == null) {
+            return null;
+        }
+        LxmUserInfo userInfo = queryByUserId(user.getId());
+        return convertToModel(user, userInfo);
+    }
+
     private LxmUserModel convertToModel(LxmUser userEntity, LxmUserInfo userInfoEntity) {
         LxmUserModel model = new LxmUserModel();
-        model.setUserId(userEntity.getId());
-        model.setUserName(userEntity.getUserName());
         model.setUserPwd(userEntity.getUserPassword());
-        model.setWechatUnionID(userEntity.getWechatUnionID());
+        BeanUtils.copyProperties(userEntity, model);
         if (userInfoEntity != null) {
-            model.setEmail(userInfoEntity.getUserEmail());
-            model.setPhone(userInfoEntity.getUserPhone());
-            model.setNickName(userInfoEntity.getNickName());
+            BeanUtils.copyProperties(userInfoEntity, model);
         }
         return model;
     }
@@ -95,7 +136,7 @@ public class LxmUserBo {
     //region LxmUser function
     private LxmUser convertToLxmUserEntity(LxmUserModel dataInfo) {
         LxmUser model = new LxmUser();
-        model.setUserName(dataInfo.getUserName());
+        model.setUserName(dataInfo.getUsername());
         model.setId(dataInfo.getUserId());
         model.setUserPassword(dataInfo.getUserPwd());
         return model;
@@ -123,6 +164,12 @@ public class LxmUserBo {
 
     private List<LxmUser> queryLxmUser(LxmUserExample example) {
         return lxmUserDAO.selectByExample(example);
+    }
+
+    private LxmUserModel convertToModel(LxmUserSearchResult entity) {
+        LxmUserModel model = new LxmUserModel();
+        BeanUtils.copyProperties(entity, model);
+        return model;
     }
     //endregion
 
