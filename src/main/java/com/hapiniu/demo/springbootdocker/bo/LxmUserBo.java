@@ -63,7 +63,7 @@ public class LxmUserBo {
 
     public List<LxmUserModel> lstLxmUserModel(String param, PageModel pageModel) {
         param ="%"+param+"%";
-        List<LxmUserModel> results = lxmUserSearchDAO.searchUser(param, pageModel.getPageIndex(), pageModel.getPageCount())
+        List<LxmUserModel> results = lxmUserSearchDAO.searchUser(param, pageModel.getPageIndex()-1, pageModel.getPageCount())
                 .stream().map(this::convertToModel).collect(Collectors.toList());
         pageModel.setTotalCount(lxmUserSearchDAO.countUser(param).intValue());
         return  results;
