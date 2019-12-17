@@ -21,7 +21,7 @@
                )
             </if>
         </where>
-        order by lu.CreateTime desc
+        order by lu.id
         <if test="limit != null">
             <if test="offset != null">
                 limit ${offset}, ${limit}
